@@ -12,7 +12,7 @@ Cada edição tem uma pasta própria com:
 
 | Edição | Tema | Peça interativa |
 |---|---|---|
-| Ed008 | Empregado e negativado | [abrir](https://lanadeilana.github.io/deficit-de-dados/ed008-empregado-e-negativado/) |
+| Ed009 | Empregado e negativado | [abrir](https://lanadeilana.github.io/deficit-de-dados/ed008-empregado-e-negativado/) |
 
 Para rodar qualquer edição:
 
