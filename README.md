@@ -17,7 +17,7 @@ Cada edição tem uma pasta própria com:
 Para rodar qualquer edição:
 
 ```bash
-cd ed008-empregado-e-negativado
+cd ed009-empregado-e-negativado
 pip install -r requirements.txt
 python reproduzir_ed008.py   # confere o dado na fonte
 python graficos_ed008.py     # gera as imagens em img/
