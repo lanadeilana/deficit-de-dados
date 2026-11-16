@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Empregado e negativado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0}
+/* Layout: uma coluna editorial; gráfico histórico em dois painéis, simulador logo abaixo, fontes no pé. Identidade Déficit de Dados (preto + laranja), tema escuro único. */
+:root{
+  --bg:#0D0D0D; --surface:#171615; --line:#2B2826; --fg:#F4F1EE; --muted:#9C958F;
+  --accent:#FF6B35; --grey:#6E6862;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 56px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:44px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(34px,7vw,56px);line-height:1.02;margin:10px 0 14px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--accent)}
+h2{font-family:var(--display);font-weight:800;font-size:22px;margin:0 0 6px;text-wrap:balance}
+p{margin:0;max-width:65ch}
+.lede{color:var(--muted);font-size:17px}
+.big{display:flex;flex-wrap:wrap;gap:28px;margin-top:22px}
+.big div{min-width:0}
+.big b{display:block;font-family:var(--display);font-weight:800;font-size:44px;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.big b.w{color:var(--fg)}
+.big span{font-size:13px;color:var(--muted)}
+.chart{width:100%;overflow-x:auto}
+.chart svg{display:block;width:100%;min-width:520px;height:auto}
+.note{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.sim{border-top:2px solid var(--accent);padding-top:22px;display:flex;flex-direction:column;gap:22px}
+.ctl{display:flex;flex-direction:column;gap:8px}
+.ctl label{display:flex;justify-content:space-between;gap:12px;font-weight:600}
+.ctl label output{font-family:var(--mono);color:var(--accent);font-variant-numeric:tabular-nums}
+.ctl small{color:var(--muted);font-size:13px}
+input[type=range]{width:100%;accent-color:var(--accent);height:28px}
+input[type=range]:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.out div{background:var(--surface);padding:16px;min-width:0}
+.out b{display:block;font-family:var(--display);font-weight:800;font-size:30px;font-variant-numeric:tabular-nums}
+.out span{font-size:13px;color:var(--muted)}
+.bar{height:14px;background:var(--line);position:relative;margin-top:4px}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--accent);transition:width .2s}
+.bar i.fixed{background:var(--grey)}
+.verdict{font-family:var(--display);font-weight:800;font-size:22px;line-height:1.25;text-wrap:balance}
+.verdict span{color:var(--accent)}
+.fact{background:var(--surface);padding:18px;border-left:3px solid var(--grey)}
+footer{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:18px}
+footer a{color:var(--fg)}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="kicker">Déficit de Dados · Ed008</div>
+    <h1>Empregado e <em>negativado</em></h1>
+    <p class="lede">Em setembro de 2026, o Brasil teve ao mesmo tempo o menor desemprego e o maior número de inadimplentes já registrados.</p>
+    <div class="big">
+      <div><b>84,2 mi</b><span>negativados na Serasa, set/2026</span></div>
+      <div><b class="w">5,2%</b><span>desemprego, 3º tri 2026</span></div>
+      <div><b>8,1%</b><span>inadimplência das famílias no crédito livre (BC)</span></div>
+    </div>
+  </header>
+
+  <section>
+    <h2>As duas curvas se afastam desde 2022</h2>
+    <p class="note">Negativados em setembro de cada ano · desemprego no trimestre jul–set</p>
+    <div class="chart" id="chart" role="img" aria-label="Negativados sobem de 68,4 para 84,2 milhões entre 2022 e 2026 enquanto o desemprego cai de 8,7% para 5,2%"></div>
+  </section>
+
+  <section class="fact">
+    <p><b>Uma conta que não depende de hipótese:</b> o país tem 5,63 milhões de desocupados. Se todos eles estivessem negativados, explicariam no máximo <b id="maxdesoc">6,7%</b> dos 84,2 milhões. Os outros 93% estão empregados, aposentados ou fora da força de trabalho, e nenhuma base pública diz em que proporção.</p>
+  </section>
+
+  <section class="sim">
+    <div>
+      <h2>Simulador: quanto do calote vem de quem trabalha?</h2>
+      <p>Nenhuma estatística cruza emprego e inadimplência na mesma pessoa. Escolha você a fatia que falta e veja a conclusão mudar.</p>
+    </div>
+
+    <div class="ctl">
+      <label for="share">Negativados que estão ocupados <output id="shareOut">50%</output></label>
+      <input type="range" id="share" min="0" max="90" step="1" value="50">
+      <small>Esta é a incerteza. O resto está desocupado, aposentado ou fora da força de trabalho (20,1% dos negativados têm mais de 60 anos).</small>
+    </div>
+
+    <div class="ctl">
+      <label for="rate">Juros anuais sobre a dívida em atraso <output id="rateOut">49%</output></label>
+      <input type="range" id="rate" min="10" max="150" step="1" value="49">
+      <small>49% ao ano é a taxa média do crédito livre para pessoas físicas em setembro. O rotativo do cartão cobra bem mais.</small>
+    </div>
+
+    <div class="out">
+      <div><b id="occNeg">42,1 mi</b><span>trabalhadores ocupados e negativados</span></div>
+      <div><b id="pctWorkers">41%</b><span>dos 103,6 milhões de ocupados</span>
+        <div class="bar" aria-hidden="true"><i id="barWorkers" style="width:41%"></i></div></div>
+      <div><b id="debt12">R$ 10.570</b><span>a dívida média de R$ 7.093,83 após 12 meses sem pagar</span></div>
+    </div>
+
+    <p class="verdict" id="verdict"></p>
+  </section>
+
+  <footer>
+    <div><b>Fontes.</b> Negativados: <a href="https://www.serasa.com.br/limpa-nome-online/blog/mapa-da-inadimplencia-e-renogociacao-de-dividas-no-brasil/" target="_blank" rel="noopener">Serasa, Mapa da Inadimplência</a>. Desemprego e ocupados: IBGE, PNAD Contínua (<a href="https://agenciadenoticias.ibge.gov.br/agencia-noticias/35284-desemprego-cai-para-8-7-no-terceiro-trimestre.html" target="_blank" rel="noopener">2022</a>, <a href="https://agenciadenoticias.ibge.gov.br/agencia-sala-de-imprensa/38195-pnad-continua-taxa-de-desocupacao-e-de-7-7-e-taxa-de-subutilizacao-e-de-17-6-no-trimestre-encerrado-em-setembro.html" target="_blank" rel="noopener">2023</a>, <a href="https://www.cnnbrasil.com.br/economia/macroeconomia/pnad-setembro-2024/" target="_blank" rel="noopener">2024</a>, <a href="https://diariodonordeste.verdesmares.com.br/negocios/taxa-de-desemprego-no-brasil-cai-e-chega-a-52-no-3-trimestre-de-2026-1.3802435" target="_blank" rel="noopener">2025–2026</a>). Inadimplência e juros: Banco Central, Estatísticas Monetárias e de Crédito de 29/10/2026 (<a href="https://www.contrafatos.com.br/como-a-inadimplencia-das-familias-chegou-ao-maior-nivel-em-mais-de-uma-decada-no-brasil" target="_blank" rel="noopener">via ContraFatos</a>).</div>
+    <div>Código e dados: <a href="https://github.com/lanadeilana/deficit-de-dados/tree/main/ed008-empregado-e-negativado" target="_blank" rel="noopener">github.com/lanadeilana/deficit-de-dados</a>. Newsletter: <a href="https://lanadeilana.substack.com/" target="_blank" rel="noopener">lanadeilana.substack.com</a>.</div>
+    <div>O simulador multiplica a fatia escolhida pelos 84,2 milhões de negativados e divide pelos 103,6 milhões de ocupados. A dívida em 12 meses aplica a taxa anual uma vez sobre a dívida média. A Serasa conta pessoas de 18 anos ou mais e a PNAD conta a partir de 14, então a comparação é aproximada.</div>
+  </footer>
+</div>
+
+<script>
+const ROWS=[
+  {ano:2022,neg:68.39,desemp:8.7},
+  {ano:2023,neg:71.82,desemp:7.7},
+  {ano:2024,neg:72.64,desemp:6.4},
+  {ano:2025,neg:79.1,desemp:5.6},
+  {ano:2026,neg:84.2,desemp:5.2}
+];
+const NEG=84.2, OCUP=103.6, DESOC=5.63, DIVIDA=7093.83;
+const nf=(v,d=1)=>v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
+
+function panel(x0,w,key,min,max,title,unit){
+  const n=ROWS.length, top=40, bottom=230;
+  const x=i=>x0+20+i*((w-40)/(n-1));
+  const y=v=>bottom-(v-min)/(max-min)*(bottom-top-20);
+  const d=ROWS.map((r,i)=>`${i?'L':'M'}${x(i)},${y(r[key])}`).join(' ');
+  let s=`<text x="${x0}" y="18" fill="#F4F1EE" font-size="14" font-weight="600">${title}</text>`;
+  s+=`<line x1="${x0}" x2="${x0+w}" y1="${bottom}" y2="${bottom}" stroke="#2B2826"/>`;
+  s+=`<path d="${d}" fill="none" stroke="#6E6862" stroke-width="2.5"/>`;
+  ROWS.forEach((r,i)=>{
+    const last=i===n-1, c=last?'#FF6B35':'#9C958F';
+    s+=`<circle cx="${x(i)}" cy="${y(r[key])}" r="${last?6:4}" fill="${last?'#FF6B35':'#6E6862'}"><title>${r.ano}: ${nf(r[key])}${unit}</title></circle>`;
+    s+=`<text x="${x(i)}" y="${y(r[key])-12}" text-anchor="middle" fill="${last?'#FF6B35':'#F4F1EE'}" font-size="13" font-weight="${last?700:400}">${nf(r[key])}${unit}</text>`;
+    s+=`<text x="${x(i)}" y="${bottom+20}" text-anchor="middle" fill="${c}" font-size="12">${r.ano}</text>`;
+  });
+  return s;
+}
+document.getElementById('chart').innerHTML=
+  `<svg viewBox="0 0 760 260" font-family="Archivo, Arial, sans-serif" aria-hidden="true">`+
+  panel(0,350,'neg',60,90,'Negativados (milhões)','')+
+  `<text x="350" y="226" text-anchor="end" fill="#9C958F" font-size="10">eixo começa em 60</text>`+
+  panel(410,350,'desemp',0,10,'Desemprego (%)','%')+
+  `</svg>`;
+
+document.getElementById('maxdesoc').textContent=nf(DESOC/NEG*100)+'%';
+
+const share=document.getElementById('share'), rate=document.getElementById('rate');
+function update(){
+  const s=+share.value/100, j=+rate.value/100;
+  const occ=NEG*s, pct=occ/OCUP*100, debt=DIVIDA*(1+j);
+  document.getElementById('shareOut').textContent=share.value+'%';
+  document.getElementById('rateOut').textContent=rate.value+'%';
+  document.getElementById('occNeg').textContent=nf(occ)+' mi';
+  document.getElementById('pctWorkers').textContent=nf(pct,0)+'%';
+  document.getElementById('barWorkers').style.width=Math.min(pct,100)+'%';
+  document.getElementById('debt12').textContent='R$ '+Math.round(debt).toLocaleString('pt-BR');
+  let v;
+  if(pct>=30) v=`Com essa fatia, <span>${nf(pct,0)} em cada 100 trabalhadores</span> estariam negativados. Nesse cenário, ter emprego não protege do calote, e a explicação passa pelo custo do crédito.`;
+  else if(pct>=15) v=`Com essa fatia, <span>${nf(pct,0)} em cada 100 trabalhadores</span> estariam negativados. O dado disponível não permite dizer se o peso maior está na renda ou nos juros.`;
+  else v=`Com essa fatia, só <span>${nf(pct,0)} em cada 100 trabalhadores</span> estariam negativados. A inadimplência estaria concentrada fora do mercado de trabalho: aposentados e quem não procura emprego.`;
+  document.getElementById('verdict').innerHTML=v;
+}
+share.addEventListener('input',update); rate.addEventListener('input',update); update();
+</script>
+</body>
+</html>
