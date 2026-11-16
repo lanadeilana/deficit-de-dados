@@ -1,4 +1,4 @@
-# Déficit de Dados
+# Déficit de Dados Ed 009
 
 Código, dados e peças interativas da newsletter [Déficit de Dados](https://lanadeilana.substack.com/), sobre dados, comportamento e saúde no Brasil.
 
